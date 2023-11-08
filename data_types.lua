@@ -5,3 +5,4 @@
     print(type(true))           --> boolean
     print(type(nil))            --> nil
     print(type(type(X)))        --> string
+    print(type("f"))            --> string

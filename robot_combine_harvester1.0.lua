@@ -3,33 +3,41 @@ robot = require("robot")
 
 function sizeInvent()
     local quantity = 0
-    local maxItemsInASlot = 16
     for i = 1, robot.inventorySize() do
-        robot.select(i)
-        quantity = quantity + maxItemsInASlot - robot.count()
+        quantity = quantity + robot.space(i)
     end
 
     return quantity
 end
 
+-- Move turnRight outside the while loop
 local turnRight = true
 
 while sizeInvent() > 0 do
     robot.useDown()
     robot.forward()
 
-    if robot.detect() then
+    if robot.detect() == true and robot.detectUp() == false then
         if turnRight then
+            print("should turn right")
             robot.turnRight()
             robot.forward()
             robot.turnRight()
+            turnRight = false
             print(turnRight)
         else
+            print("should turn left")
             robot.turnLeft()
             robot.forward()
             robot.turnLeft()
+            turnRight = true
             print(turnRight)
         end
+    elseif robot.detectUp() == true then
+         robot.turnRight()
+         robot.forward()
+         robot.turnRight()
+         turnRight = false
     end
 end
 --[[
